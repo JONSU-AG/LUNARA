@@ -225,12 +225,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <p className="text-xs text-white/90 mt-1">Esmaltado en gel con técnica rusa de cutículas impecables.</p>
                   
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="text-sm font-bold text-[#ffd9df]">Desde S/ 35.00</span>
+                    <span className="text-xs font-semibold text-[#ffd9df] bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
+                      ✨ Modelo de Referencia
+                    </span>
                     <button
-                      onClick={() => onOpenBooking('esmalte-gel')}
-                      className="px-3.5 py-1.5 bg-[#ffd9df] text-[#631928] text-xs font-bold rounded-full hover:bg-white transition-colors"
+                      onClick={() => onOpenBooking('consulta-asesoria')}
+                      className="px-3.5 py-1.5 bg-[#ffd9df] text-[#631928] text-xs font-bold rounded-full hover:bg-white transition-colors cursor-pointer"
                     >
-                      Pedir este estilo
+                      Pedir este modelo
                     </button>
                   </div>
                 </div>

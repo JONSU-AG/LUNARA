@@ -18,7 +18,7 @@ export const DesignDetailModal: React.FC<DesignDetailModalProps> = ({
 
   const handleWhatsAppInquiry = () => {
     const text = encodeURIComponent(
-      `¡Hola Yanely! 🌸 Me encantó este diseño: *${item.title}* de tu galería. ¿Tienes fecha disponible para realizarme este estilo? ✨`
+      `¡Hola Yanely! 🌸 Me encantó este modelo de referencia: *${item.title}* de tu catálogo. ¿Te puedo consultar para cotizarlo y ver disponibilidad de cita? ✨`
     );
     window.open(`https://wa.me/${STUDIO_INFO.phoneClean}?text=${text}`, '_blank');
   };
@@ -30,7 +30,7 @@ export const DesignDetailModal: React.FC<DesignDetailModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md text-[#400012] hover:bg-[#ffd9df] flex items-center justify-center shadow-md transition-colors"
+          className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur-md text-[#400012] hover:bg-[#ffd9df] flex items-center justify-center shadow-md transition-colors cursor-pointer"
           aria-label="Cerrar"
         >
           <span className="material-symbols-outlined text-2xl">close</span>
@@ -53,18 +53,17 @@ export const DesignDetailModal: React.FC<DesignDetailModalProps> = ({
           <div className="p-6 sm:p-8 flex flex-col justify-between space-y-4">
             <div className="space-y-3">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#a23255]">
-                Lunara Estudio de Uñas
+                Modelo de Inspiración • Lunara
               </span>
               
               <h3 className="font-serif-luxury text-2xl font-bold text-[#400012]">
                 {item.title}
               </h3>
 
-              {item.priceEstimate && (
-                <div className="inline-block px-3 py-1 bg-[#fff0f3] rounded-xl border border-[#ffd9df] text-sm font-bold text-[#a23255]">
-                  Precio Estimado: {item.priceEstimate}
-                </div>
-              )}
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#fff0f3] rounded-xl border border-[#ffd9df] text-xs font-bold text-[#a23255]">
+                <span className="material-symbols-outlined text-sm">palette</span>
+                <span>Foto de Referencia para Cotizar</span>
+              </div>
 
               <p className="text-xs sm:text-sm text-[#564145] leading-relaxed">
                 {item.description}
@@ -87,20 +86,20 @@ export const DesignDetailModal: React.FC<DesignDetailModalProps> = ({
             <div className="space-y-2.5 pt-4 border-t border-[#ffd9df]">
               <button
                 onClick={handleWhatsAppInquiry}
-                className="w-full py-3 px-4 bg-[#25D366] hover:bg-[#20ba5a] text-white text-sm font-bold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-95"
+                className="w-full py-3 px-4 bg-[#25D366] hover:bg-[#20ba5a] text-white text-sm font-bold rounded-xl shadow-md flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer"
               >
                 <WhatsAppIcon className="w-5 h-5 fill-current" />
-                <span>Pedir este diseño por WhatsApp</span>
+                <span>Consultar este modelo por WhatsApp</span>
               </button>
 
               <button
                 onClick={() => {
-                  onSelectForBooking(item.category);
+                  onSelectForBooking('consulta-asesoria');
                   onClose();
                 }}
-                className="w-full py-2.5 px-4 bg-[#fff0f3] hover:bg-[#ffd9df] text-[#a23255] text-xs font-bold rounded-xl transition-colors text-center"
+                className="w-full py-2.5 px-4 bg-[#fff0f3] hover:bg-[#ffd9df] text-[#a23255] text-xs font-bold rounded-xl transition-colors text-center cursor-pointer"
               >
-                Elegir este estilo
+                Cotizar este modelo en reservas
               </button>
             </div>
 

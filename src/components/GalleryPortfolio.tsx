@@ -28,7 +28,7 @@ export const GalleryPortfolio: React.FC<GalleryPortfolioProps> = ({
 
   const handleWhatsAppForDesign = (item: GalleryItem) => {
     const text = encodeURIComponent(
-      `¡Hola Yanely! 🌸 Me encantó este diseño de tu catálogo: *${item.title}* (${item.priceEstimate || 'Cotizar'}). ¿Tienes cupos disponibles para recrearlo? ✨`
+      `¡Hola Yanely! 🌸 Me encantó este modelo de uñas de tu catálogo: *${item.title}*. ¿Te puedo consultar para cotizarlo y ver disponibilidad? ✨`
     );
     window.open(`https://wa.me/${STUDIO_INFO.phoneClean}?text=${text}`, '_blank');
   };
@@ -41,15 +41,15 @@ export const GalleryPortfolio: React.FC<GalleryPortfolioProps> = ({
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#ffd9df]/60 text-[#a23255] text-xs font-bold uppercase tracking-wider">
             <span className="material-symbols-outlined text-sm">photo_library</span>
-            <span>Galería de Obras Maestras</span>
+            <span>Modelos de Inspiración</span>
           </div>
           
           <h2 className="font-serif-luxury text-3xl sm:text-4xl lg:text-5xl font-bold text-[#400012]">
-            Nuestro Catálogo de Diseños
+            Modelos de Uñas & Referencias
           </h2>
           
           <p className="text-base sm:text-lg text-[#564145] leading-relaxed">
-            Inspiración real de nuestro estudio. Cada set es elaborado con meticuloso cuidado de cutícula, nivelación arquitectónica y pigmentos de máxima duración.
+            Explora modelos de inspiración para tu próxima cita. Si tienes una foto de TikTok, Instagram o Pinterest, envíanosla por WhatsApp para cotizarla y recrearla a tu gusto.
           </p>
         </div>
 
@@ -105,15 +105,15 @@ export const GalleryPortfolio: React.FC<GalleryPortfolioProps> = ({
               {/* Card Body */}
               <div className="p-5 flex flex-col flex-1 justify-between space-y-3">
                 <div>
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="text-[10px] font-bold text-[#a23255] uppercase tracking-wider">
+                      Modelo de referencia
+                    </span>
+                  </div>
+
                   <h3 className="font-serif-luxury text-lg font-bold text-[#400012] group-hover:text-[#a23255] transition-colors leading-snug">
                     {item.title}
                   </h3>
-                  
-                  {item.priceEstimate && (
-                    <p className="text-xs font-bold text-[#a23255] mt-1">
-                      Aprox. {item.priceEstimate}
-                    </p>
-                  )}
 
                   <p className="text-xs text-[#564145] mt-2 line-clamp-2 leading-relaxed">
                     {item.description}
@@ -136,17 +136,17 @@ export const GalleryPortfolio: React.FC<GalleryPortfolioProps> = ({
                 <div className="pt-3 border-t border-[#ffd9df]/40 flex items-center gap-2">
                   <button
                     onClick={() => onSelectDesign(item)}
-                    className="flex-1 py-2 px-2.5 bg-[#fff0f3] hover:bg-[#ffd9df] text-[#a23255] text-xs font-bold rounded-xl transition-colors text-center"
+                    className="flex-1 py-2 px-2.5 bg-[#fff0f3] hover:bg-[#ffd9df] text-[#a23255] text-xs font-bold rounded-xl transition-colors text-center cursor-pointer"
                   >
-                    Detalles
+                    Ver modelo
                   </button>
                   <button
                     onClick={() => handleWhatsAppForDesign(item)}
-                    title="Pedir este diseño por WhatsApp"
-                    className="py-2 px-3 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-xs active:scale-95 shrink-0"
+                    title="Consultar este modelo por WhatsApp"
+                    className="py-2 px-3 bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-xs active:scale-95 shrink-0 cursor-pointer"
                   >
                     <WhatsAppIcon className="w-4 h-4 fill-current" />
-                    <span>Pedir</span>
+                    <span>Consultar</span>
                   </button>
                 </div>
               </div>
