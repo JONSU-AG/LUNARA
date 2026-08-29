@@ -8,12 +8,27 @@ interface BookingSectionProps {
   onClearInitialService?: () => void;
 }
 
+const SPECIAL_INQUIRY_OPTIONS = [
+  {
+    id: 'consulta-asesoria',
+    name: '💬 Quiero hacer una consulta / Cotizar diseño especial',
+    priceDisplay: 'Asesoría Gratuita',
+    description: '¿Tienes una foto de TikTok, Pinterest o Instagram? Elige esta opción para enviárnosla por WhatsApp y recibir orientación personalizada de Yanely.',
+  },
+  {
+    id: 'consulta-disponibilidad',
+    name: '📅 Consultar fechas y horarios disponibles para esta semana',
+    priceDisplay: 'Consulta Rápida',
+    description: 'Escríbenos directamente para conocer los turnos libres más próximos en la agenda.',
+  },
+];
+
 export const BookingSection: React.FC<BookingSectionProps> = ({
   initialServiceId,
 }) => {
   const [clientName, setClientName] = useState('');
   const [selectedServiceId, setSelectedServiceId] = useState<string>(
-    initialServiceId || 'acrilico-set-nuevo'
+    initialServiceId || 'consulta-asesoria'
   );
   const [hasPreviousMaterial, setHasPreviousMaterial] = useState<'no' | 'si'>('no');
   const [customDesignNotes, setCustomDesignNotes] = useState('');
@@ -25,8 +40,17 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
     }
   }, [initialServiceId]);
 
-  const selectedService: ServiceItem =
-    SERVICES.find((s) => s.id === selectedServiceId) || SERVICES[0];
+  const isConsultation =
+    selectedServiceId === 'consulta-asesoria' ||
+    selectedServiceId === 'consulta-disponibilidad';
+
+  const selectedSpecialInquiry = SPECIAL_INQUIRY_OPTIONS.find(
+    (opt) => opt.id === selectedServiceId
+  );
+
+  const selectedService: ServiceItem | undefined = SERVICES.find(
+    (s) => s.id === selectedServiceId
+  );
 
   const copyYapeNumber = () => {
     navigator.clipboard.writeText(STUDIO_INFO.yapeNumber.replace(/\s+/g, ''));
@@ -43,16 +67,37 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
         : 'No (uñas al natural)';
 
     const notesText = customDesignNotes.trim()
-      ? `\n💭 *Detalles/Diseño deseado:* ${customDesignNotes.trim()}`
+      ? `\n💭 *Detalles / Foto de referencia:* ${customDesignNotes.trim()}`
       : '';
 
-    const message = `¡Hola Yanely! 🌸 Quiero consultar disponibilidad de cita en *Lunara Estudio de Uñas* 💅
+    let message = '';
+
+    if (selectedServiceId === 'consulta-asesoria') {
+      message = `¡Hola Yanely! 🌸 Quiero hacerte una consulta personalizada en *Lunara Estudio de Uñas* 💅
 
 👤 *Nombre:* ${clientName.trim() || 'Clienta'}
-💅 *Servicio de interés:* ${selectedService.name} (${selectedService.priceDisplay || `S/ ${selectedService.price}.00`})
+💬 *Motivo:* Quiero cotizar un diseño especial / asesoría sobre el mejor servicio para mis uñas.${notesText}
+
+¿Te puedo enviar mi foto de referencia para coordinar detalles y ver disponibilidad? ✨`;
+    } else if (selectedServiceId === 'consulta-disponibilidad') {
+      message = `¡Hola Yanely! 🌸 Quiero consultar fechas y horarios disponibles en *Lunara Estudio de Uñas* 💅
+
+👤 *Nombre:* ${clientName.trim() || 'Clienta'}
+📅 *Consulta:* Disponibilidad de agenda para esta semana${notesText}
+
+¿Qué turnos tienes libres para coordinar mi cita? ✨`;
+    } else {
+      const sName = selectedService?.name || 'Servicio de Uñas';
+      const sPrice = selectedService?.priceDisplay || `S/ ${selectedService?.price || 0}.00`;
+
+      message = `¡Hola Yanely! 🌸 Quiero consultar disponibilidad de cita en *Lunara Estudio de Uñas* 💅
+
+👤 *Nombre:* ${clientName.trim() || 'Clienta'}
+💅 *Servicio de interés:* ${sName} (${sPrice})
 🔄 *Material previo:* ${previousMatText}${notesText}
 
 ¿Qué horarios y días tienes disponibles para coordinar mi cita? ✨`;
+    }
 
     window.open(
       `https://wa.me/${STUDIO_INFO.phoneClean}?text=${encodeURIComponent(message)}`,
@@ -72,11 +117,11 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
           </div>
 
           <h2 className="font-serif-luxury text-3xl sm:text-4xl lg:text-5xl font-bold text-[#400012]">
-            Pide tu Cita en Lunara
+            Pide tu Cita o Asesoría en Lunara
           </h2>
 
           <p className="text-sm sm:text-base text-[#564145] leading-relaxed">
-            Escríbenos para consultar fechas disponibles. Recuerda reservar con <strong className="text-[#a23255]">2 días de anticipación</strong> para asegurar tu espacio exclusivo.
+            Escríbenos para consultar dudas, cotizar diseños o asegurar tu fecha. Recuerda reservar con <strong className="text-[#a23255]">2 días de anticipación</strong> para tu espacio exclusivo.
           </p>
         </div>
 
@@ -99,9 +144,9 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
                     1
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-[#400012]">Elige o envíanos tu diseño</h4>
+                    <h4 className="text-sm font-bold text-[#400012]">Elige tu servicio o consúltanos</h4>
                     <p className="text-xs text-[#564145] mt-0.5 leading-relaxed">
-                      Escoge un servicio de la lista o envíanos una foto de referencia de TikTok, Instagram o Pinterest.
+                      Escoge tu servicio de la lista o envíanos una foto de referencia de TikTok, Instagram o Pinterest para cotizarla.
                     </p>
                   </div>
                 </div>
@@ -125,7 +170,7 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
                   <div>
                     <h4 className="text-sm font-bold text-[#400012]">Confirmación y atención</h4>
                     <p className="text-xs text-[#564145] mt-0.5 leading-relaxed">
-                      Al definir tu horario, se bloquea tu turno exclusivo de ~2 horas para brindarte la mayor dedicación.
+                      Al definir tu horario, se bloquea tu turno exclusivo de ~2 horas para brindarte la mayor dedicación y arte.
                     </p>
                   </div>
                 </div>
@@ -193,30 +238,59 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
                 Generador de Mensaje para WhatsApp
               </h3>
               <p className="text-xs sm:text-sm text-[#705554] mt-1">
-                Completa tus datos para enviarnos tu solicitud con 1 solo clic:
+                Selecciona tu opción y completa tus datos para escribirle directamente a Yanely:
               </p>
             </div>
 
             <form onSubmit={handleSendWhatsApp} className="space-y-5">
               
-              {/* Service Selection */}
+              {/* Service / Consultation Selection */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold uppercase tracking-wider text-[#a23255]">
-                  1. Servicio de uñas que deseas:
+                  1. ¿Qué deseas consultar o reservar?
                 </label>
                 <select
                   value={selectedServiceId}
                   onChange={(e) => setSelectedServiceId(e.target.value)}
                   className="w-full p-3.5 bg-[#fff9fa] border-2 border-[#ffd9df] rounded-2xl text-sm sm:text-base font-bold text-[#400012] focus:outline-none focus:border-[#a23255] transition-colors"
                 >
-                  {SERVICES.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name} — {s.priceDisplay || `S/ ${s.price}.00`}
-                    </option>
-                  ))}
+                  <optgroup label="💬 Consultas y Asesoría Directa">
+                    {SPECIAL_INQUIRY_OPTIONS.map((opt) => (
+                      <option key={opt.id} value={opt.id}>
+                        {opt.name}
+                      </option>
+                    ))}
+                  </optgroup>
+
+                  <optgroup label="💅 Acrílico & Poligel">
+                    {SERVICES.filter((s) => s.category === 'acrilico-poligel').map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name} — {s.priceDisplay || `S/ ${s.price}.00`}
+                      </option>
+                    ))}
+                  </optgroup>
+
+                  <optgroup label="🌿 Rubber, Builder & Kapping Natural">
+                    {SERVICES.filter((s) => s.category === 'rubber-gel').map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name} — {s.priceDisplay || `S/ ${s.price}.00`}
+                      </option>
+                    ))}
+                  </optgroup>
+
+                  <optgroup label="🎨 Nail Art & Diseños Extras">
+                    {SERVICES.filter((s) => s.category === 'extras').map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name} — {s.priceDisplay || `S/ ${s.price}.00`}
+                      </option>
+                    ))}
+                  </optgroup>
                 </select>
+
                 <p className="text-xs text-[#705554] pl-1">
-                  {selectedService.description}
+                  {selectedSpecialInquiry
+                    ? selectedSpecialInquiry.description
+                    : selectedService?.description}
                 </p>
               </div>
 
@@ -235,45 +309,53 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
                 />
               </div>
 
-              {/* Previous Material Selection */}
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#a23255]">
-                  3. ¿Tienes acrílico o esmalte previo para retirar?
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setHasPreviousMaterial('no')}
-                    className={`p-3 rounded-xl border-2 text-xs sm:text-sm font-bold transition-all text-center ${
-                      hasPreviousMaterial === 'no'
-                        ? 'bg-[#a23255] text-white border-[#a23255] shadow-xs'
-                        : 'bg-white text-[#564145] border-[#ffd9df] hover:bg-[#fff5f7]'
-                    }`}
-                  >
-                    No, uñas naturales
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setHasPreviousMaterial('si')}
-                    className={`p-3 rounded-xl border-2 text-xs sm:text-sm font-bold transition-all text-center ${
-                      hasPreviousMaterial === 'si'
-                        ? 'bg-[#a23255] text-white border-[#a23255] shadow-xs'
-                        : 'bg-white text-[#564145] border-[#ffd9df] hover:bg-[#fff5f7]'
-                    }`}
-                  >
-                    Sí, tengo material puesto
-                  </button>
+              {/* Previous Material Selection (Only if specific service is selected) */}
+              {!isConsultation && (
+                <div className="space-y-1.5 animate-fadeIn">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#a23255]">
+                    3. ¿Tienes acrílico o esmalte previo para retirar?
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setHasPreviousMaterial('no')}
+                      className={`p-3 rounded-xl border-2 text-xs sm:text-sm font-bold transition-all text-center ${
+                        hasPreviousMaterial === 'no'
+                          ? 'bg-[#a23255] text-white border-[#a23255] shadow-xs'
+                          : 'bg-white text-[#564145] border-[#ffd9df] hover:bg-[#fff5f7]'
+                      }`}
+                    >
+                      No, uñas naturales
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setHasPreviousMaterial('si')}
+                      className={`p-3 rounded-xl border-2 text-xs sm:text-sm font-bold transition-all text-center ${
+                        hasPreviousMaterial === 'si'
+                          ? 'bg-[#a23255] text-white border-[#a23255] shadow-xs'
+                          : 'bg-white text-[#564145] border-[#ffd9df] hover:bg-[#fff5f7]'
+                      }`}
+                    >
+                      Sí, tengo material puesto
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Optional custom notes */}
+              {/* Optional custom notes / question detail */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold uppercase tracking-wider text-[#a23255]">
-                  4. Detalles opcionales o diseño de referencia (opcional):
+                  {isConsultation
+                    ? '3. ¿Qué diseño deseas o qué duda tienes? (opcional):'
+                    : '4. Detalles opcionales o diseño de referencia (opcional):'}
                 </label>
                 <input
                   type="text"
-                  placeholder="Ej: Quiero diseño con lazo coquette o enviar foto por chat"
+                  placeholder={
+                    isConsultation
+                      ? 'Ej: Quiero enviar foto de TikTok con diseño coquette / consultar precio'
+                      : 'Ej: Quiero diseño con lazo coquette o enviar foto por chat'
+                  }
                   value={customDesignNotes}
                   onChange={(e) => setCustomDesignNotes(e.target.value)}
                   className="w-full p-3 bg-[#fff9fa] border border-[#ffd9df] rounded-xl text-xs sm:text-sm text-[#400012] placeholder-[#a88d93] focus:outline-none focus:border-[#a23255]"
@@ -285,13 +367,19 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
                 <button
                   type="submit"
                   id="submit-whatsapp-booking-btn"
-                  className="w-full py-4 px-6 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold text-base sm:text-lg rounded-2xl shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-3 transition-all hover:scale-[1.01] active:scale-95"
+                  className="w-full py-4 px-6 bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold text-base sm:text-lg rounded-2xl shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-3 transition-all hover:scale-[1.01] active:scale-95 cursor-pointer"
                 >
                   <WhatsAppIcon className="w-6 h-6 sm:w-7 sm:h-7 fill-current" />
-                  <span>Enviar Mensaje a WhatsApp ({STUDIO_INFO.phoneFormatted})</span>
+                  <span>
+                    {isConsultation
+                      ? 'Consultar por WhatsApp'
+                      : 'Solicitar Cita por WhatsApp'}
+                  </span>
                 </button>
                 <p className="text-center text-xs text-[#705554] mt-2">
-                  Te responderemos a la brevedad con los horarios y días disponibles.
+                  {isConsultation
+                    ? 'Yanely te responderá para asesorarte con tu diseño y cotización.'
+                    : 'Te responderemos a la brevedad con los horarios y días disponibles.'}
                 </p>
               </div>
 
@@ -305,3 +393,4 @@ export const BookingSection: React.FC<BookingSectionProps> = ({
     </section>
   );
 };
+
