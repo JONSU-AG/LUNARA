@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+    --font-script: 'Alex Brush', cursive;
+    --font-grotesk: 'Hanken Grotesk', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: #2e151b;
+    background-color: #fdf7f8;
+  }
+}
+
+.font-serif-luxury {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-script-accent {
+  font-family: 'Alex Brush', cursive;
+}
+
+.font-grotesk-ui {
+  font-family: 'Hanken Grotesk', 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Custom Soft Pink Glow & Shadows */
+.rose-shadow-sm {
+  box-shadow: 0 4px 20px -4px rgba(224, 75, 114, 0.12);
+}
+
+.rose-shadow-md {
+  box-shadow: 0 10px 30px -6px rgba(184, 43, 83, 0.15), 0 4px 12px -2px rgba(235, 111, 145, 0.08);
+}
+
+.rose-shadow-lg {
+  box-shadow: 0 20px 40px -10px rgba(162, 34, 73, 0.22), 0 10px 20px -5px rgba(244, 114, 153, 0.12);
+}
+
+.pink-glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 220, 228, 0.6);
+}
+
+.pink-card-gradient {
+  background: linear-gradient(145deg, #ffffff 0%, #fff0f3 100%);
+}
+
+.pink-hero-gradient {
+  background: radial-gradient(circle at 10% 20%, rgba(255, 223, 230, 0.7) 0%, transparent 50%),
+              radial-gradient(circle at 90% 80%, rgba(254, 205, 218, 0.5) 0%, transparent 60%),
+              linear-gradient(180deg, #fff5f7 0%, #fffafb 100%);
+}
+
+.gold-shimmer {
+  background: linear-gradient(120deg, #d4af37 0%, #ffd700 50%, #d4af37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Blob animations */
+.organic-blob {
+  border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  animation: morphBlob 10s ease-in-out infinite alternate;
+}
+
+@keyframes morphBlob {
+  0% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    border-radius: 60% 40% 30% 70% / 55% 65% 35% 45%;
+    transform: scale(1.05) rotate(5deg);
+  }
+  100% {
+    border-radius: 35% 65% 55% 45% / 40% 50% 50% 60%;
+    transform: scale(0.98) rotate(-4deg);
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #fdf2f4;
+}
+::-webkit-scrollbar-thumb {
+  background: #f4a2b8;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d84b73;
+}
+

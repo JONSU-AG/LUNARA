@@ -1,0 +1,7 @@
+{
+  "name": "Lunara - Estudio de Uñas",
+  "description": "Sitio oficial de Lunara Estudio de Uñas en Arequipa. Catálogo de servicios, lista de precios, galería de diseños, ubicación y reserva exclusiva por WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
